@@ -1,5 +1,11 @@
 # Setup
 
+**[Watch the demo](https://www.youtube.com/watch?v=1D13MW-iD_M)** · [View the slides](https://drive.google.com/file/d/1JT6m-zExS88pWpNfdtetS9vlLt5U2QSi/view) · [Product overview](README.md)
+
+Night Desk runs the conversation, rules and execution checks in one Node server. This guide connects your providers to that workflow.
+
+![Night Desk system flow](docs/assets/how-night-desk-acts.png)
+
 ## Local review
 
 Install Node.js 24+, run `npm test`, then `npm start`. The dashboard listens only on `127.0.0.1:8876`; phone ingress uses port `8765`. Local review works without credentials through the synthetic approval rehearsal. Do not expose the unauthenticated loopback dashboard to the internet.
@@ -19,7 +25,7 @@ Coinbase candles and public Kalshi market context require no API credentials. ES
 
 ## Rules and a bounded run
 
-The dashboard edits validated SQLite settings; `rules.md` describes the authority boundaries. A fresh database has no loss thresholds, no automatic reduction percentages and no add spending cap. Choose your own values; the event's 0.1% Bitcoin loss trigger was deliberately sensitive for demonstration, not a trading recommendation.
+The dashboard edits validated SQLite settings; `rules.md` describes the authority boundaries. On Railway, rules and history persist in `/data/nightdesk.sqlite`. The Google Sheet and Google service account are retired from this workflow. A fresh database starts with execution off; set the loss thresholds, reduction amounts and add spending cap in **Rules and preferences**. The recorded example used a **0.1% Bitcoin loss threshold** and a **10% reduction**.
 
 - Save a loss threshold, cumulative reduction percentage, cooldown and maximum sale price concession for covered crypto reductions.
 - Keep `DEMO_RUN_ENABLED=false` while reviewing. Saving settings alone cannot execute.

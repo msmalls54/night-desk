@@ -1,6 +1,10 @@
 # Reviewer guide
 
-**Start with `npm test`, then `npm start` and the dashboard's approval rehearsal.** No dependencies, provider accounts or credentials are needed for that path.
+**[Watch the 80-second phone demo](https://www.youtube.com/watch?v=1D13MW-iD_M)** · [View the presentation](https://drive.google.com/file/d/1JT6m-zExS88pWpNfdtetS9vlLt5U2QSi/view) · [See the order and receipts](../README.md#the-order-and-the-receipts)
+
+Start with the conversation, then follow its result through the filled order and email. To run the code, use `npm test`, then `npm start` and the dashboard's approval rehearsal.
+
+![Dashboard rules, Railway server, phone conversation, trade execution and saved receipt](assets/how-night-desk-acts.png)
 
 ## Code tour
 
@@ -25,21 +29,25 @@
 4. The owner requested a ten-percent Bitcoin market trim, heard the exact quantity, and approved it on the next turn.
 5. One paper order filled. The backend reconciled it and the email provider accepted the written receipt.
 
-That is a verified execution workflow, not evidence that the strategy predicts prices. Coinbase returns and Kalshi contract prices measure different things. Kalshi's current fifteen-minute interval may have only a few minutes remaining and uses its own benchmark. A loss below entry can coexist with positive short-term momentum. Holding is a valid outcome; absence of a trim signal is not an add signal.
+The trigger uses Alpaca position P&L. Coinbase supplies short-term price and volume context; Kalshi supplies contract-implied odds and its own settlement benchmark. The owner uses those distinct inputs to choose an action. Holding remains available, and adding requires its own proposal and spending cap.
+
+![The filled Bitcoin paper order](assets/bitcoin-filled-order.png)
+
+The separate Wyoming test followed the verified missed-call path and closed the scoped demo position. The [full receipt screenshots](../README.md#the-order-and-the-receipts) show the explanations sent after both tests.
 
 ## Offline checks
 
 Eleven suites cover signatures and duplicate events; exact approval/revision/expiry/replay; owned quantities and open orders; absent quotes for market reductions; distinct units and incomplete candles; scoped missed-call grants; ledger preservation; verified sports names; current fifteen-minute interval selection; source-backed search routing; and supplied phone context. All providers/models in these suites are injected or mocked, with an additional network blocker in the test runner.
 
-## Boundaries reviewers should see
+## Execution behavior
 
 - New clones do not inherit the creator's rules, holdings, calls, approvals or credentials. Execution defaults off.
 - The synthetic dashboard rehearsal is separate from the actual provider flow in the recorded video.
 - Automatic crypto reductions still use limit orders with configured price concessions; answered-call market reductions do not require a quote feed.
 - General sports automation, SMS, multi-user accounts, arbitrary strategy compilation and real-money trading are outside this build.
 - Sports mappings and the one-shot Wyoming worker are narrow event examples. New events require explicit verified mappings.
-- A model can summarize evidence imperfectly. The server enforces execution permission and quantities; it does not prove investment merit.
+- The server enforces execution permission and quantities independently of the model's explanation.
 - The initial spoken order outcome can be pending/unverified. The later broker readback and email distinguish submitted, filled, partial, rejected and unknown results.
-- One SQLite volume and one owner are intentional limits. This is a hackathon application, not a production brokerage service.
+- The application runs for one owner with one server replica and a persistent SQLite volume.
 
-The creator handles the video and event submission separately. A public repository is not a submission receipt.
+[Setup](../SETUP.md) · [Demo walkthrough](DEMO_WALKTHROUGH.md) · [Presentation sources](MEDIA.md)

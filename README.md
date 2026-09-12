@@ -6,6 +6,10 @@ Night Desk connects your portfolio, your rules and your phone. When a position c
 
 **Written rules · Market context · Voice approval · Trade receipts**
 
+**[Watch the 80-second demo →](https://www.youtube.com/watch?v=1D13MW-iD_M)** · **[View the slides](https://drive.google.com/file/d/1JT6m-zExS88pWpNfdtetS9vlLt5U2QSi/view)** · [See the order and receipts](#the-order-and-the-receipts)
+
+[![Watch Night Desk's phone conversation with Mike](docs/assets/phone-demo.png)](https://www.youtube.com/watch?v=1D13MW-iD_M)
+
 Built for the **Agents, Everywhere** hackathon using **Alpaca paper trading** and **Kalshi demo contracts**.
 
 ## Why Night Desk
@@ -16,6 +20,14 @@ Night Desk brings those steps into one conversation. It knows the position you h
 
 Your written instructions also cover the missed-call path. With a pre-authorized reduction rule, Night Desk verifies that the call went unanswered, carries out the covered action and sends the explanation by email.
 
+## Why this matters now
+
+![Research from the presentation: 51 percent of surveyed US Gen Z adults had owned crypto; Gen Z betting participation increased 34 percent year over year](docs/assets/why-now.png)
+
+In Gemini exchange's 2024 survey, **51% of US Gen Z respondents currently owned or had previously owned crypto**. TransUnion reported **34% year-over-year growth in Gen Z betting participation in Q2 2025**. Sources: [Gemini exchange survey](https://www.gemini.com/blog/gemini-survey-finds-more-than-half-of-gen-z-owns-crypto%20) and [TransUnion report](https://newsroom.transunion.com/gen-z-millennial-speculators-drove-year-over-year-gambling-growth-in-q2-2025/).
+
+Night Desk focuses on the decision after someone takes a position: understand the exposure, follow a written rule and carry the decision through to a recorded result.
+
 ## From a rule to a result
 
 1. **Set your rules.** Choose the loss threshold, reduction amount and spending cap in the dashboard. Night Desk saves a version of your settings in its persistent Railway database.
@@ -24,15 +36,7 @@ Your written instructions also cover the missed-call path. With a pre-authorized
 4. **Choose the action.** Add to an existing position, trim it or close it. The agent reads back the exact proposal and asks for approval. Adds follow your spending cap.
 5. **Get the receipt.** Night Desk checks the broker's order result and writes an email explaining what it did, why it did it and how much exposure remains.
 
-```text
-Your holdings + written rules + market context
-                      ↓
-              A phone conversation
-                      ↓
-        Your approval or pre-authorized reduction
-                      ↓
-          Order → Broker result → Email receipt
-```
+![How Night Desk acts: dashboard rules and positions feed the Railway server, Gemini and AgentPhone; spoken approval or a pre-authorized missed-call rule leads to an order and email receipt](docs/assets/how-night-desk-acts.png)
 
 ## Two ways to act
 
@@ -71,7 +75,23 @@ The owner then requests a **10% Bitcoin market trim**, hears the exact quantity 
 
 The demonstrations connect the conversation to stored call records, order results and email receipts.
 
+## The order and the receipts
+
+**Bitcoin: the approved market sell filled.**
+
+![Alpaca paper order table showing the filled Bitcoin market sell](docs/assets/bitcoin-filled-order.png)
+
+**The email explains the completed 10% trim and the remaining exposure.**
+
+![Full Bitcoin receipt explaining the approved sale, filled quantity, average price and remaining exposure](docs/assets/bitcoin-email.png)
+
+**Wyoming: the missed-call rule carried out the authorized close.** The initial email records the submitted order and the reason for acting. Subsequent broker reconciliation confirmed the fill and zero remaining contracts.
+
+![Full Wyoming receipt explaining the missed call, pre-authorized rule, order and pending fill confirmation at email time](docs/assets/wyoming-email.png)
+
 ## The tools behind the conversation
+
+![The nine services behind Night Desk, with their roles](docs/assets/services.png)
 
 | Tool | What it brings to Night Desk |
 | --- | --- |
@@ -102,4 +122,4 @@ Open **http://127.0.0.1:8876** and select **Start approval rehearsal**. Enter `y
 
 To connect your own accounts, follow the [setup guide](SETUP.md). Select your model through `OPENROUTER_MODEL`.
 
-[Code and verification guide](docs/REVIEWER_GUIDE.md) · [Example rule and demo sequence](docs/DEMO_WALKTHROUGH.md)
+[Code and verification guide](docs/REVIEWER_GUIDE.md) · [Example rule and demo sequence](docs/DEMO_WALKTHROUGH.md) · [Presentation and image sources](docs/MEDIA.md)
