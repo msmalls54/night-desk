@@ -1,35 +1,95 @@
 # Night Desk
 
-**Demo/paper money only. Not investment advice.** Night Desk is a personal risk assistant that explains an existing position by phone, follows written rules, submits an approved paper trade, and emails a receipt from the broker's result.
+## Understand the move. Make the call.
 
-Built for the September 12, 2026 Agents, Everywhere hackathon. The recorded demo asks about Coinbase's Bitcoin trend and Kalshi's fifteen-minute Bitcoin market, then approves a ten-percent trim on Alpaca paper.
+Night Desk connects your portfolio, your rules and your phone. When a position crosses a loss threshold, it calls with the market context ready. Ask what is happening, decide how much to reduce, and approve the action in your own words. Night Desk executes the trade and emails the result.
 
-## The working loop
+**Written rules · Market context · Voice approval · Trade receipts**
 
-1. The server retrieves actual holdings, price/volume readings and prediction-market context.
-2. An eligible loss rule can initiate a phone call. AgentPhone handles speech; our server supplies Gemini's context and tools through OpenRouter.
-3. The owner asks questions, requests a trim, hears the exact quantity and order type, then approves on a separate turn.
-4. The server checks ownership, available quantity, open orders and approval before submitting once.
-5. It reconciles the order and sends a plain-English email describing the actual result.
+Built for the **Agents, Everywhere** hackathon using **Alpaca paper trading** and **Kalshi demo contracts**.
 
-```mermaid
-flowchart LR
-  A[Alpaca paper holdings] --> S[Node server + SQLite]
-  C[Coinbase completed candles] --> S
-  K[Kalshi market context / demo holdings] --> S
-  E[ESPN game context] --> S
-  R[Written rules + validated settings] --> S
-  S <--> G[Gemini through OpenRouter]
-  G <--> P[AgentPhone conversation]
-  S --> Q[Exact approval + execution checks]
-  Q --> B[Paper / demo order]
-  B --> V[Provider reconciliation]
-  V --> M[AgentMail receipt]
+## Why Night Desk
+
+A price alert tells you something changed. You still have to open your accounts, check your exposure, interpret the market and decide what to do. That work gets harder when you are away from your screen.
+
+Night Desk brings those steps into one conversation. It knows the position you hold, the rule that triggered and the information behind the alert. You can ask about Bitcoin's direction, compare it with prediction-market odds, and approve a reduction during the same call.
+
+Your written instructions also cover the missed-call path. With a pre-authorized reduction rule, Night Desk verifies that the call went unanswered, carries out the covered action and sends the explanation by email.
+
+## From a rule to a result
+
+1. **Set your rules.** Choose the loss threshold, reduction amount and spending cap in the dashboard. Night Desk saves a version of your settings in its persistent Railway database.
+2. **Get the call.** The server checks your holdings against the rule and brings your position, price moves, volume and market context into the conversation.
+3. **Ask in plain English.** “Which way is Bitcoin trending?” “What is Kalshi pricing?” “What about my other positions?” Gemini answers from the context supplied by the server.
+4. **Choose the action.** Add to an existing position, trim it or close it. The agent reads back the exact proposal and asks for approval. Adds follow your spending cap.
+5. **Get the receipt.** Night Desk checks the broker's order result and writes an email explaining what it did, why it did it and how much exposure remains.
+
+```text
+Your holdings + written rules + market context
+                      ↓
+              A phone conversation
+                      ↓
+        Your approval or pre-authorized reduction
+                      ↓
+          Order → Broker result → Email receipt
 ```
 
-## Try it without credentials
+## Two ways to act
 
-Requires **Node.js 24 or later**. There are no third-party npm dependencies.
+| You answer | You miss the call |
+| --- | --- |
+| Ask about the position and market context. | Night Desk verifies the unanswered-call outcome. |
+| Request an action and hear the exact readback. | It applies the reduction already authorized by your written rule. |
+| Approve the proposal by voice. | It keeps the action within the configured quantity and scope. |
+| Receive the order result and explanation by email. | Receive the order result and explanation by email. |
+
+The server enforces the approval, spending cap and available quantity. Saved order records prevent duplicate submissions and keep the receipt tied to the broker's result.
+
+## Watch the Bitcoin workflow
+
+Start with one rule: **call when Bitcoin falls 0.1% below entry, with a configured 10% reduction.**
+
+In the recorded workflow, the owner follows up on the loss alert and asks:
+
+> “What do Coinbase's price moves and trading volume say about Bitcoin's direction?”
+>
+> “What are the odds on Kalshi's current fifteen-minute Bitcoin market, and when does it settle?”
+
+The owner then requests a **10% Bitcoin market trim**, hears the exact quantity and approves it. The Alpaca paper sell fills, and Night Desk sends an email explaining the completed reduction.
+
+**Show the rule → Play the call → Show the filled order → Show the email.**
+
+[Two-minute walkthrough](docs/DEMO_WALKTHROUGH.md)
+
+## What we demonstrated
+
+| Workflow | Result |
+| --- | --- |
+| **Answered Bitcoin call** | Market questions, spoken approval, a filled 10% Alpaca paper trim and an email receipt. |
+| **Unanswered crypto call** | A verified missed call followed by a rule-authorized paper reduction. |
+| **Unanswered Wyoming call** | The scoped Kalshi demo close filled and left zero contracts in that position. |
+
+The demonstrations connect the conversation to stored call records, order results and email receipts.
+
+## The tools behind the conversation
+
+| Tool | What it brings to Night Desk |
+| --- | --- |
+| **Gemini through OpenRouter** | Interprets the conversation, explains supplied evidence and calls the server's tools. |
+| **AgentPhone** | Places the call, transcribes speech and speaks the server's response. |
+| **Alpaca paper** | Supplies crypto holdings and executes approved orders. |
+| **Coinbase Exchange** | Supplies completed one-minute and five-minute price moves and relative trading volume. |
+| **Kalshi** | Supplies Bitcoin prediction-market context and owned demo sports contracts. |
+| **ESPN** | Adds game context for the configured football matchup. |
+| **OpenRouter web search** | Answers explicit requests for current public research with source links. |
+| **AgentMail** | Sends plain-English receipts built from stored execution facts. |
+| **Railway + SQLite** | Runs the server and preserves rules, notes, conversations and order history. |
+
+The server retrieves the context before supplying it to Gemini. Rules are edited in the Night Desk dashboard and stored on Railway.
+
+## Try the conversation flow
+
+Requires **Node.js 24+**. No third-party npm dependencies.
 
 ```sh
 git clone https://github.com/msmalls54/night-desk.git
@@ -38,47 +98,8 @@ npm test
 npm start
 ```
 
-Open **http://127.0.0.1:8876** and select **Start approval rehearsal**. Try `yes, but only 25 percent`, then `25`, then a separate `yes`. This rehearsal uses synthetic contracts and never calls a phone, model, broker or email provider. Missing connected accounts appear unavailable. Public market snapshots may load when the server has network access.
+Open **http://127.0.0.1:8876** and select **Start approval rehearsal**. Enter `yes, but only 25 percent`, then `25`, then a separate `yes` to see the revision and approval flow with synthetic contracts.
 
-`npm test` runs eleven offline suites with network access blocked. It needs no credentials, broker account or running server.
+To connect your own accounts, follow the [setup guide](SETUP.md). Select your model through `OPENROUTER_MODEL`.
 
-## Connect your own providers
-
-Copy `.env.example` to `.env`, supply your own credentials, and follow [SETUP.md](SETUP.md). Select the model with `OPENROUTER_MODEL`; there is no hardcoded model or silent fallback. The event deployment requested `google/gemini-3.8-flash` through OpenRouter.
-
-New installations start with **execution paused, reduction rules unconfigured and adds disabled**. Saving a rule does not arm execution. `DEMO_RUN_ENABLED=true` and a future `DEMO_RUN_UNTIL` are both required for the bounded test window.
-
-## What the agent can see
-
-| Source | Supplied context |
-| --- | --- |
-| Alpaca paper | Existing BTC, ETH, SOL, XRP and DOGE quantities, entry, value, P&L, available quantities and open orders. Unrelated stocks are excluded. |
-| Coinbase Exchange | Completed one-minute and five-minute returns; latest completed-minute volume divided by the preceding twenty completed-minute average. Venue volume only. Gaps, zero baselines and stale data are unavailable. |
-| Kalshi public markets | The currently open fifteen-minute BTC interval, YES bid/ask-implied odds, closing time and settlement benchmark; separate bounded hourly coin context. Informational contracts do not establish ownership. |
-| Kalshi demo | Actual owned YES/NO contracts and verified market names. Sports execution is restricted to the implemented game allowlist. |
-| ESPN | The configured, identity-checked football matchup. It does not automatically describe every owned sports contract. |
-| OpenRouter web search | Explicit public research requests, limited to one search and three results. Sources and retrieval times are saved. Ordinary price/position questions use supplied account and market data. |
-
-The model cannot see dashboards, previous conversations or live feeds automatically. SQLite supplies explicit notes, recent completed calls, rule versions and stored execution facts.
-
-## Authority and limits
-
-- **Answered call:** a server-generated exact proposal and fresh approval are required. Changing the action requires a new readback. Repeated approval cannot resubmit an order.
-- **Market trim/close:** Alpaca paper only, with an exact bounded quantity. No caller price or fresh bid/ask is required. Account/ownership checks remain; fill price is not guaranteed.
-- **Adds:** only to an existing position, with an explicit amount, configured spending cap, limit price and approval. Disabled while the cap is blank.
-- **Unanswered call:** only the specifically recognized carrier voicemail, a signed event and matching provider readback can authorize configured reductions. Unknown greetings, failures or human conversation do not qualify. Quiet hours alone never authorize an order.
-- **Automatic reductions:** use rule-bound limit IOC orders, cumulative targets, expiring authority and durable submission claims. Uncertain results are reconciled, never blindly retried.
-- **Sports:** the successful missed-call closeout was an explicitly scoped Wyoming demo test, not general autonomous sports trading.
-- **Runtime:** one owner, one server replica and one persistent SQLite volume. This is not a multi-user trading service or a validated investment strategy.
-
-## Verified during the event
-
-The recorded final flow used the actual phone, Gemini, Coinbase and Kalshi context, then filled a ten-percent Alpaca paper market trim after spoken approval. The resulting email was accepted by the email provider. Earlier tests verified a rule-bound unanswered-call crypto reduction and a scoped Kalshi demo closeout. The owner confirmed the final video take was captured.
-
-Provider acceptance is not proof of email delivery or opening. In the final call, the agent initially said the order outcome was unverified; the server subsequently reconciled the fill and emailed it. Private transcripts, account balances, credentials and raw receipts are intentionally not published.
-
-See [the two-minute walkthrough](docs/DEMO_WALKTHROUGH.md) for the example rule and recording sequence, and [the reviewer guide](docs/REVIEWER_GUIDE.md) for the code tour and known limits.
-
-## Event provenance
-
-Application code was built in this project on September 12, 2026. Work began around 10:45 AM Pacific with organizer approval reported by the owner. Existing provider accounts, credentials, and a prior fixed-response phone transport check were reused infrastructure. This repository packages the application and offline verification; video upload and hackathon submission are separate owner-managed steps.
+[Code and verification guide](docs/REVIEWER_GUIDE.md) · [Example rule and demo sequence](docs/DEMO_WALKTHROUGH.md)
