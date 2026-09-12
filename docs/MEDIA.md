@@ -9,7 +9,6 @@ The README uses the presentation's original visuals and the full receipt screens
 | `assets/why-now.png` | Final presentation, page 2: research and product opportunity. |
 | `assets/services.png` | Final presentation, page 3: provider logos and roles. |
 | `assets/how-night-desk-acts.png` | Final presentation, page 4: rule, conversation, execution and receipt flow. |
-| `assets/phone-demo.png` | Final presentation, page 5: still from Mike's recorded demonstration; links to the video. |
 | `assets/bitcoin-filled-order.png` | Original Alpaca paper filled-order screenshot used in the receipts slide. |
 | `assets/bitcoin-email.png` | Original Bitcoin receipt screenshot, shown at full width. |
 | `assets/wyoming-email.png` | Original Wyoming receipt screenshot, shown at full width. |

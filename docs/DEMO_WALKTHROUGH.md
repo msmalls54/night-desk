@@ -2,8 +2,6 @@
 
 **[Play the 80-second recording](https://www.youtube.com/watch?v=1D13MW-iD_M)** · [Open the presentation](https://drive.google.com/file/d/1JT6m-zExS88pWpNfdtetS9vlLt5U2QSi/view)
 
-[![Night Desk phone demonstration](assets/phone-demo.png)](https://www.youtube.com/watch?v=1D13MW-iD_M)
-
 Use one Bitcoin rule to show the complete loop: rule, conversation, filled order and email.
 
 1. **Rule (about 15 seconds).** Open the connected Night Desk dashboard, then **Rules and preferences**. Show the **BTCUSD** row: **Loss percent: 0.1**, **Missed-call reduction: 10**. Say: "I set one Bitcoin protection rule: call me when my paper position falls 0.1 percent below entry. If I answer, I can discuss the evidence and approve a specific action."

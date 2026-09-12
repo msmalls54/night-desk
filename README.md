@@ -8,8 +8,6 @@ Night Desk connects your portfolio, your rules and your phone. When a position c
 
 **[Watch the 80-second demo →](https://www.youtube.com/watch?v=1D13MW-iD_M)** · **[View the slides](https://drive.google.com/file/d/1JT6m-zExS88pWpNfdtetS9vlLt5U2QSi/view)** · [See the order and receipts](#the-order-and-the-receipts)
 
-[![Watch Night Desk's phone conversation with Mike](docs/assets/phone-demo.png)](https://www.youtube.com/watch?v=1D13MW-iD_M)
-
 Built for the **Agents, Everywhere** hackathon using **Alpaca paper trading** and **Kalshi demo contracts**.
 
 ## Why Night Desk
