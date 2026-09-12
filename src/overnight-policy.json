@@ -1,0 +1,11 @@
+{
+  "version": "overnight-draft-2026-09-12",
+  "enabled": false,
+  "account": "alpaca-paper",
+  "timezone": "America/Los_Angeles",
+  "start": "22:30",
+  "end": "06:30",
+  "symbols": [],
+  "max_slippage_bps": null,
+  "rules": []
+}

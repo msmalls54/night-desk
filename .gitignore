@@ -1,0 +1,14 @@
+.env
+.env.*
+!.env.example
+PRIVATE/
+data/
+outputs/
+node_modules/
+*.pem
+*.key
+*.sqlite*
+*.db*
+*.log
+__pycache__/
+.DS_Store

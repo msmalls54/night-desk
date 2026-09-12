@@ -1,0 +1,25 @@
+import assert from 'node:assert/strict';
+import {enrichKalshiPositions} from '../src/providers.mjs';
+const now=()=>new Date('2026-09-12T22:00:00Z');
+const original=[{ticker:'UNT',position_fp:'4.17',market_exposure:123},{ticker:'UNM',position_fp:'-1.00'},{ticker:'FAIL',position_fp:'2.00'},{ticker:'MISMATCH',position_fp:'1.00'},{ticker:'ZERO',position_fp:'0.00'},{ticker:'BAD',position_fp:null}];
+const snapshot=JSON.stringify(original),calls=[];
+const read=async(url,options)=>{
+  assert.ok(options.signal);calls.push(url);const ticker=decodeURIComponent(url.split('/').at(-1));
+  if(ticker==='FAIL')throw new Error('Mock unavailable');
+  return {market:{ticker:ticker==='MISMATCH'?'OTHER':ticker,title:'Verified '+ticker,subtitle:'Game subtitle',yes_sub_title:'Verified YES outcome',no_sub_title:'Verified NO outcome',event_ticker:'MOCK-EVENT'}};
+};
+const r=await enrichKalshiPositions(original,{read,now});
+assert.equal(JSON.stringify(original),snapshot);assert.equal(r.length,original.length);assert.equal(calls.length,4);
+assert.equal(r[0].owned_side,'yes');assert.equal(r[0].owned_count,'4.17');assert.equal(r[0].market.title,'Verified UNT');assert.equal(r[0].market.retrieved_at,now().toISOString());assert.ok(r[0].market.source_url.includes('external-api.demo.kalshi.co'));
+assert.equal(r[1].owned_side,'no');assert.equal(r[1].owned_count,'1.00');assert.equal(r[1].position_fp,'-1.00');assert.equal(r[1].market.no_sub_title,'Verified NO outcome');
+assert.equal(r[2].market.verified,false);assert.equal(r[2].market.title,null);assert.equal(r[2].position_fp,'2.00');
+assert.equal(r[3].market.verified,false);assert.match(r[3].market.unavailable_reason,/mismatch/);assert.equal(r[3].market.title,null);
+assert.equal(r[4].owned_side,'none');assert.equal(r[5].owned_side,'unknown');assert.equal(r[5].owned_count,null);
+calls.length=0;
+const many=Array.from({length:12},(_,i)=>({ticker:'T'+i,position_fp:'1.25'}));
+many.push({...many[0]});
+const capped=await enrichKalshiPositions(many,{read,now});
+assert.equal(calls.length,10);assert.equal(capped.length,13);assert.equal(capped[10].market.verified,false);assert.equal(capped[10].owned_count,'1.25');assert.match(capped[10].market.unavailable_reason,/limit/);assert.equal(capped[12].market.verified,true);
+const noNames=await enrichKalshiPositions([{ticker:'EMPTY',position_fp:'-2'}],{read:async()=>({market:{ticker:'EMPTY'}}),now});
+assert.equal(noNames[0].market.title,null);assert.equal(noNames[0].owned_side,'no');
+console.log('PASS: verified names/source/time, YES/NO normalization, raw holdings preserved, missing/mismatched/failed metadata unknown, 10-read unique ticker cap, no reads for zero or invalid ownership. Mock reads only.');

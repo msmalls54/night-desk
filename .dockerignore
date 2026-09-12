@@ -1,0 +1,8 @@
+**
+!src/
+!src/**
+!public/
+!public/**
+!package.json
+!rules.md
+!Dockerfile
