@@ -9,7 +9,7 @@ export const config = { ...env, ...process.env };
 // The active environment wins. Import only the required account credentials.
 try {
   const saved = JSON.parse(readFileSync(path.join(root, 'PRIVATE/provider-store/credentials.json'), 'utf8'));
-  for (const key of ['ALPACA_API_KEY', 'ALPACA_SECRET_KEY', 'GOOGLE_SERVICE_ACCOUNT_JSON']) config[key] ||= saved[key];
+  for (const key of ['ALPACA_API_KEY', 'ALPACA_SECRET_KEY']) config[key] ||= saved[key];
 } catch {}
 export const dataDir = config.DATA_DIR || path.join(root, 'PRIVATE/app-data');
 mkdirSync(dataDir, { recursive: true });
