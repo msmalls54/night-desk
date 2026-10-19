@@ -10,6 +10,8 @@ Night Desk connects your portfolio, your rules and your phone. When a position c
 
 Built for the **Agents, Everywhere** hackathon using **Alpaca paper trading** and **Kalshi demo contracts**.
 
+*Paper and demo accounts only. Night Desk is a personal project, not investment advice or a recommendation to buy or sell any asset.*
+
 ## Why Night Desk
 
 A price alert tells you something changed. You still have to open your accounts, check your exposure, interpret the market and decide what to do. That work gets harder when you are away from your screen.
@@ -18,13 +20,9 @@ Night Desk brings those steps into one conversation. It knows the position you h
 
 Your written instructions also cover the missed-call path. With a pre-authorized reduction rule, Night Desk verifies that the call went unanswered, carries out the covered action and sends the explanation by email.
 
-## Why this matters now
+## Why this matters
 
-![Research from the presentation: 51 percent of surveyed US Gen Z adults had owned crypto; Gen Z betting participation increased 34 percent year over year](docs/assets/why-now.png)
-
-In Gemini exchange's 2024 survey, **51% of US Gen Z respondents currently owned or had previously owned crypto**. TransUnion reported **34% year-over-year growth in Gen Z betting participation in Q2 2025**. Sources: [Gemini exchange survey](https://www.gemini.com/blog/gemini-survey-finds-more-than-half-of-gen-z-owns-crypto%20) and [TransUnion report](https://newsroom.transunion.com/gen-z-millennial-speculators-drove-year-over-year-gambling-growth-in-q2-2025/).
-
-Night Desk focuses on the decision after someone takes a position: understand the exposure, follow a written rule and carry the decision through to a recorded result.
+Crypto markets never close, but people do. Night Desk is built for anyone holding a position in a market that keeps moving while they sleep, work or drive: it reaches you when your rule breaks, and if you can't pick up, it takes only the cautious action you authorized in advance.
 
 ## From a rule to a result
 
@@ -82,10 +80,6 @@ The demonstrations connect the conversation to stored call records, order result
 **The email explains the completed 10% trim and the remaining exposure.**
 
 ![Full Bitcoin receipt explaining the approved sale, filled quantity, average price and remaining exposure](docs/assets/bitcoin-email.png)
-
-**Wyoming: the missed-call rule carried out the authorized close.** The initial email records the submitted order and the reason for acting. Subsequent broker reconciliation confirmed the fill and zero remaining contracts.
-
-![Full Wyoming receipt explaining the missed call, pre-authorized rule, order and pending fill confirmation at email time](docs/assets/wyoming-email.png)
 
 ## The tools behind the conversation
 
